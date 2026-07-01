@@ -1,0 +1,30 @@
+# Quick overfit sanity check on 1 sample
+# Usage: python scripts/train.py --config configs/overfit_1sample.yaml
+
+model:
+  pipeline_path: "microsoft/TRELLIS.2-4B"
+  flow_model_key: "shape_slat_flow_model_1024"
+  id_channels: 1024
+  num_id_tokens: 16
+  ip_scale: 2
+  ip_interval: 1
+
+data:
+  train_dir: "data/adapter_train_hq_1024"
+  val_ratio: 0.0
+
+train:
+  steps: 500
+  lr: 5.0e-4
+  weight_decay: 0.0
+  batch_size: 1
+  grad_clip: 1.0
+  save_every: 500
+  log_every: 50
+  seed: 42
+  cfg_drop_cond: 0.0
+  cfg_drop_id: 0.0
+  cfg_drop_both: 0.0
+
+output:
+  dir: "runs/overfit_test"

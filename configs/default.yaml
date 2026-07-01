@@ -1,0 +1,39 @@
+# FaceMesh-Adapter v2 - Default Training Config
+# Override with: python scripts/train.py --config path/to/custom.yaml
+
+# Model
+model:
+  pipeline_path: "microsoft/TRELLIS.2-4B"
+  flow_model_key: "shape_slat_flow_model_512"   # or shape_slat_flow_model_1024
+  id_channels: 1024          # DINOv3 embedding dim
+  num_id_tokens: 4           # tokens per identity
+  ip_scale: 1.0              # cross-attention residual scale
+  ip_interval: 2             # insert IP layer every N blocks
+
+# Data
+data:
+  train_dir: "data/adapter_train"
+  val_ratio: 0.1
+
+# Training
+train:
+  steps: 10000
+  lr: 1.0e-4
+  weight_decay: 1.0e-2
+  batch_size: 1              # sparse data, batch=1 per step
+  grad_clip: 1.0
+  save_every: 1000
+  log_every: 100
+  seed: 42
+
+  # CFG dropout probabilities
+  cfg_drop_cond: 0.05        # drop base cond → rely on id_cond
+  cfg_drop_id: 0.05          # drop id_cond → base behavior
+  cfg_drop_both: 0.05        # drop both → unconditional
+
+# Output
+output:
+  dir: "runs/facemesh_adapter_v2"
+
+# Quick overfit sanity check
+# Override: --config configs/overfit_1sample.yaml
