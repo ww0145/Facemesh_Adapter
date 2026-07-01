@@ -8,13 +8,14 @@ model:
   num_id_tokens: 16
   ip_scale: 2
   ip_interval: 1
+  pipeline_type: "1024"
 
 data:
   train_dir: "data/adapter_train_hq_1024"
   val_ratio: 0.0
 
 train:
-  steps: 500
+  steps: 700
   lr: 5.0e-4
   weight_decay: 0.0
   batch_size: 1

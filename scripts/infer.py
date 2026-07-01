@@ -554,6 +554,7 @@ def main():
     print(f"Loaded adapter from {args.adapter_ckpt}")
     shape_adapter.eval()
 
+    cond_resolution = 1024 if args.pipeline_type in ('1024', '1024_cascade') else 512
     # 3. Encode conditions (decoupled), or reuse training-time conditions.
     if args.use_gt_cond:
         print("Encoding conditions: using cond/id_emb from GT .pt...")
@@ -569,7 +570,7 @@ def main():
             head_ratio=0.20, expand=1.3, fill=args.head_mask_fill,
         )
         fullbody_processed = pipeline.preprocess_image(fullbody_masked)
-        cond_dict = pipeline.get_cond([fullbody_processed], resolution=512)
+        cond_dict = pipeline.get_cond([fullbody_processed], resolution=cond_resolution)
 
         # Save masked image for debugging
         fullbody_masked.save(out_dir / "debug_fullbody_masked.png")
@@ -578,7 +579,7 @@ def main():
         # Adapter cond: head image → DINOv3 → mean-pool → id_emb
         head_img = Image.open(args.head_image)
         head_processed = pipeline.preprocess_image(head_img)
-        head_cond_dict = pipeline.get_cond([head_processed], resolution=512)
+        head_cond_dict = pipeline.get_cond([head_processed], resolution=cond_resolution)
         id_emb = head_cond_dict['cond'].mean(dim=1)  # [1, 1024]
 
     # Set cached id_cond so pipeline's sampler can use it

@@ -9,6 +9,7 @@ model:
   num_id_tokens: 4           # tokens per identity
   ip_scale: 1.0              # cross-attention residual scale
   ip_interval: 2             # insert IP layer every N blocks
+  pipeline_type: "1024"
 
 # Data
 data:

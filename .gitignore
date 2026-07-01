@@ -1,12 +1,14 @@
 __pycache__/
 *.pyc
 
-data/
-runs/
-results/
-outputs/
-checkpoints/
-ckpts/
+# generated assets / experiments
+/data/thuman_vxz/
+/data/adapter_train*/
+/runs/
+/results/
+/outputs/
+/outputs_human_test/
+/models/
 
 *.pt
 *.pth
@@ -15,9 +17,6 @@ ckpts/
 *.obj
 *.glb
 *.mp4
-*.png
-*.jpg
-*.jpeg
 *.exr
 
 .DS_Store
